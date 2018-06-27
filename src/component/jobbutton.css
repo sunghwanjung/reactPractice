@@ -1,0 +1,17 @@
+.jobbutton{
+  background-color : darkturquoise;
+  border-radius: 1em;
+  border: 2px;
+  margin-right: 20px;
+  width: 20%;
+  min-height: 50px;
+  font-size: 17px;
+}
+.jobbutton:hover{
+  cursor: pointer;
+}
+
+.jobbuttonWrapper{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

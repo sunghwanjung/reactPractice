@@ -1,0 +1,45 @@
+
+.jobaddtable{
+  width : 100%;
+  min-height : 150px;
+}
+.jobaddtable th{
+  width : 30%;
+}
+.jobaddtable textarea{
+  width : 95%;
+  height : 60px;
+}
+.addtime{
+  width: 30px;
+  float: left;
+  height: 45px;
+  margin: 10px 10px 0px 0px;
+  font-size: 20px;
+}
+.timemiddel{
+  float: left;
+  margin: 2px 10px 2px 2px;
+  text-align: center;
+  line-height: 60px;
+}
+timecontrol{
+  float: left;
+}
+.plus{
+  margin-top: 5px;
+  font-size: 20px;
+}
+.minus{
+  font-size: 20px;
+  margin-left: 2px;
+}
+.popupbutton{
+  margin-left: 34%;
+  width: 35%;
+  margin-top: 20px;
+  min-height: 40px;
+  font-size: 15px;
+  background-color: darkgray;
+  border-radius: 2em;
+}

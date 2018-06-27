@@ -1,0 +1,29 @@
+.modalpopup{
+  width: 100%;
+  height: 100%;
+  background: grey;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0.5;
+  z-index: 5;
+}
+
+.popupwrapper{
+  z-index: 6;
+  top: 25%;
+  left: 30%;
+  position: absolute;
+  background: royalblue;
+  width: 40%;
+  min-height: 250px
+}
+
+.closeBtn{
+  float : right; 
+  margin-right : 6px;
+}
+
+.closeBtn:hover{
+  cursor: pointer;
+}
