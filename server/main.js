@@ -33,6 +33,10 @@ app.get('/test', (req, res) => {
     return res.send(result);
 });
 
+app.post('/insertjob', (req, res) => {
+
+})
+
 const server = app.listen(port, () => {
     console.log('Express listening on port', port);
 });

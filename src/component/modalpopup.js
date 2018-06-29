@@ -13,12 +13,13 @@ class jobList extends Component {
 
   prevent(event){
     //event.preventDefault();
+    
       //return;
   }  
 
   getAddPopup(){
     if(this.props.popupType == "insert"){
-      return(<AddPopup/>);
+      return(<AddPopup timeData="init"/>);
     }else if(this.props.popupType == "update"){
       return(<div>수정은 준비중</div>);  
     }

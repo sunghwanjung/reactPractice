@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import listCss from './joblist.css';
 
 class jobList extends Component {
 
   getRender(){
-    if (this.props.jobData == null) {
+    var _jobData = this.props.jobData; 
+    if (_jobData == null || _jobData == "") {
       return ( <div>이 날짜의 일정이 없습니다</div>);
     }else{
       return(
         this.props.jobData.map((list, i)=> {
-          return <li className={listCss.joblist}>{list.content}  {list.time}</li>;
+          //map으로 element를 리턴할 때 key라는 유니크한 값을 세팅해줘야 오류가 안난다.
+          return <li className={listCss.joblist} key={i}>{list.content}  {list.time}</li>;
         })
       )
     }
@@ -24,5 +27,13 @@ class jobList extends Component {
     );
   }
 }
+
+let mapStateTopProp = (state) =>{
+  return {
+    jobData : state.dayInfo.jobData
+  };
+}
+
+jobList = connect(mapStateTopProp)(jobList);
 
 export default jobList;
