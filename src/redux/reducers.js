@@ -4,6 +4,8 @@ import {combineReducers, } from 'redux';
 const dayManageInitialState = {
     selectedDay : "",
     jobData : "",
+    inputButton : true,
+    updateButton : true
 }
 
 const dayInfo = (state = dayManageInitialState, action) =>{

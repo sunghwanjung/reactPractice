@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import JobAddCss from './jobadd.css';
+import { connect } from 'react-redux';
 
 class JobAdd extends Component {
 
@@ -10,8 +11,9 @@ class JobAdd extends Component {
       hourFront : "",
       hourBack : "",
       minFront : "",
-      minBack : ""
+      minBack : "",
     }
+    this.insertjob = this.insertjob.bind(this);
 }
 
   inputKeydown(event){
@@ -49,16 +51,19 @@ class JobAdd extends Component {
 
   insertjob(event){
     var result = null;
+    var state = this.state;
     var http = new XMLHttpRequest();
+    var param = "day=" + this.props.selectedDay + "&" +
+                "time=" + state.hourFront + state.hourBack + state.minFront + state.minBack;
     
     http.open('POST', "/insertjob", false);
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     http.onreadystatechange = function() {
       if(http.readyState == 4 && http.status == 200) {
-        result = JSON.parse( http.responseText );
+        //result = JSON.parse( http.responseText );
       }
     }
-    http.send();
+    http.send(param);
     
     return result;
   }
@@ -95,11 +100,19 @@ class JobAdd extends Component {
               </tbody>
             </table>
           <div>
-            <button className={JobAddCss.popupbutton} onClick={insertjob}> 입력 </button>
+            <button className={JobAddCss.popupbutton} onClick={this.insertjob}> 입력 </button>
           </div>
         </div>
     );
   }
 }
+
+let mapStateTopProp = (state) =>{
+  return {
+    selectedDay : state.dayInfo.selectedDay
+  };
+}
+
+JobAdd = connect(mapStateTopProp)(JobAdd);
 
 export default JobAdd;

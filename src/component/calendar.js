@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Calendar from 'react-calendar';
 import { connect } from 'react-redux';
-import { getAction, SETJOBDATA } from '../redux/actions'
+import { getAction, SETJOBDATA, SETDAY, BUTTONDISABLE} from '../redux/actions'
 
 class reactCalendar extends Component {
 
@@ -12,15 +12,17 @@ class reactCalendar extends Component {
   }
 
   onClickDay(value){
-    value = this.getDateText(value);
-    var data = this.getDateSchedule(value);
+    var dateString = this.getDateText(value);
+    var data = this.getDateSchedule(dateString);
     this.props.setJobData(data);
+    this.props.setDate(dateString);
+    this.props.setInputButtonDisable(false);
   }
 
   getDateText(value){
     return "" + value.getFullYear() +
            (value.getMonth() + 1 < 10 ? "0" + (value.getMonth() + 1) : value.getMonth()) + 
-           (value.getDate() + 1 < 10 ? "0" + (value.getDate()) : value.getDate());
+           (value.getDate() < 10 ? "0" + (value.getDate()) : value.getDate());
   }
 
   getDateSchedule(value){
@@ -48,7 +50,9 @@ class reactCalendar extends Component {
 
 let mapDispatchToProps = (dispatch) => {
   return {
-      setJobData : (value) => dispatch(getAction(SETJOBDATA, value))
+      setJobData : (value) => dispatch(getAction(SETJOBDATA, value)),
+      setDate : (value) => dispatch(getAction(SETDAY, value)),
+      setInputButtonDisable : (value) => dispatch(getAction(BUTTONDISABLE, {inputButton : value}))
   }
 }
 reactCalendar = connect(undefined, mapDispatchToProps)(reactCalendar);

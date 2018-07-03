@@ -1,11 +1,14 @@
 import express from 'express';
 import WebpackDevServer from 'webpack-dev-server';
 import webpack from 'webpack';
+import bodyParser from 'body-parser';
 
 const app = express();
 const port = 3000;
 const devPort = 3001;
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
 if(process.env.NODE_ENV == 'development') {
     console.log('Server is running on development mode');
@@ -34,8 +37,10 @@ app.get('/test', (req, res) => {
 });
 
 app.post('/insertjob', (req, res) => {
-
-})
+    var body = req.body;
+    console.log(body.day)
+    return res.send("");
+});
 
 const server = app.listen(port, () => {
     console.log('Express listening on port', port);

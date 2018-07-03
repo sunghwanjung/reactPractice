@@ -1,13 +1,13 @@
 //타입 선언
 export const SETDAY = "SETDAY";
 export const SETJOBDATA = "SETJOBDATA";
-export const SETTIME = "SETTIME";
+export const BUTTONDISABLE = "BUTTONDISABLE";
 
 //타입 별로 변경될 값의 key 선언
 const valueOfTypes = {
     SETDAY : "selectedDay",
     SETJOBDATA : "jobData",
-    SETTIME : "inputedTime"
+    BUTTONDISABLE : ["inputButton", "updateButton"]
 }
 
 export  function getAction(type,value){
@@ -17,8 +17,17 @@ export  function getAction(type,value){
 
     if(type != undefined){
         if( type.constructor == Array){
-            for(var i = 0, len = type.length; i < len; i++){
-                obj[type[i]] = value;
+            if(value.constructor == Object){
+                var keys = Object.keys(value);
+                for(var i = 0, len = keys.length; i < len; i++){
+                    if(type.includes( keys[i] ) ){
+                        obj[keys] = value[keys]; 
+                    }
+                }
+            }else{
+                for(var i = 0, len = type.length; i < len; i++){
+                    obj[type[i]] = value;
+                }
             }
         }else{
             obj[type] = value;
