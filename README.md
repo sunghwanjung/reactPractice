@@ -8,6 +8,7 @@
 프로젝트 목표
  - babel, webpack의 환경에 적응
  - react 사용에 적응
+ - redux 사용에 
 
 
 사용된 외부 컴포넌트
