@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import JobAddCss from './jobadd.css';
 import { connect } from 'react-redux';
+import { getAction, MODALSHOW, ADDJOBDATA} from '../redux/actions'
+import JobAddCss from './jobadd.css';
 
 class JobAdd extends Component {
 
@@ -12,8 +13,10 @@ class JobAdd extends Component {
       hourBack : "",
       minFront : "",
       minBack : "",
+      content : ""
     }
     this.insertjob = this.insertjob.bind(this);
+    this.setContent = this.setContent.bind(this);
 }
 
   inputKeydown(event){
@@ -50,22 +53,31 @@ class JobAdd extends Component {
   }
 
   insertjob(event){
-    var result = null;
+    var _self = this;
     var state = this.state;
     var http = new XMLHttpRequest();
     var param = "day=" + this.props.selectedDay + "&" +
-                "time=" + state.hourFront + state.hourBack + state.minFront + state.minBack;
+                "time=" + state.hourFront + state.hourBack + state.minFront + state.minBack + "&" + 
+                "content=" + this.state.content;
     
-    http.open('POST', "/insertjob", false);
+    http.open('POST', "/insertjob", true);
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     http.onreadystatechange = function() {
       if(http.readyState == 4 && http.status == 200) {
-        //result = JSON.parse( http.responseText );
+        if(http.responseText == "0"){
+          afteradd();
+        }
       }
     }
     http.send(param);
-    
-    return result;
+    function afteradd(){
+      _self.props.setModalShow("none", {time : state.hourFront + state.hourBack + state.minFront + state.minBack, content: state.content});
+     // _self.props.addJobData({time : state.hourFront + state.hourBack + state.minFront + state.minBack, content: state.content});
+    }
+  }
+
+  setContent(event){
+    this.state.content = event.target.value;
   }
 
   render() {
@@ -95,7 +107,7 @@ class JobAdd extends Component {
             <tbody>
               <tr>
                 <th>내용</th>
-                <td><textarea/></td>
+                <td><textarea onBlur={this.setContent} name="contentinput"/></td>
               </tr>
               </tbody>
             </table>
@@ -113,6 +125,17 @@ let mapStateTopProp = (state) =>{
   };
 }
 
-JobAdd = connect(mapStateTopProp)(JobAdd);
+let mapDispatchToProps = (dispatch) => {
+  return {
+      setModalShow : (value, value2) =>{
+        dispatch(getAction(MODALSHOW, value));
+        dispatch(getAction( ADDJOBDATA, value2));
+      } ,
+      addJobData : (value) => dispacth(getAction( ADDJOBDATA, value))
+  }
+}
+
+
+JobAdd = connect(mapStateTopProp, mapDispatchToProps)(JobAdd);
 
 export default JobAdd;

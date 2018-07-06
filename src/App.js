@@ -15,23 +15,6 @@ class App extends Component {
     }
   }
 
-  buttonClickEvent(event){
-    switch (event.target.id) {
-      case "jobadd":
-        var inputs = document.getElementsByName("timeinput");
-        for(var i = 0, len = inputs.length; i < len; i++){
-          inputs[i].value = "";
-        }
-        this.setState({popupType : "insert"});
-        break;
-      case "jobupdate":
-        this.setState({popupType : "update"});
-        break;
-    }
-
-    this.setModalDisplay("block");
-  }
-
   setModalDisplay(state){
     this.setState({modalShow : state});
   }
@@ -40,10 +23,9 @@ class App extends Component {
     return (
       <div >
         <Calendar className="calendar" />
-        <JobButtons buttonClickEvent={this.buttonClickEvent.bind(this)}/>
+        <JobButtons/>
         <JobList/>
-        <Modal ref={this.modal} modalShow={this.state.modalShow} popupType={this.state.popupType}
-              displayModal={()=>{ this.setModalDisplay("none"); }}/>
+        <Modal/>
       </div>
     );
   }

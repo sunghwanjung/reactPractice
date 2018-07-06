@@ -25,14 +25,19 @@ class reactCalendar extends Component {
            (value.getDate() < 10 ? "0" + (value.getDate()) : value.getDate());
   }
 
-  getDateSchedule(value){
+  getDateSchedule(dateString){
     var result = null;
     var http = new XMLHttpRequest();
-    http.open('GET', "/test", false);
+    var param = "day=" +dateString;
+    http.open('GET', "/getJobData?" + param, false);
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     http.onreadystatechange = function() {
       if(http.readyState == 4 && http.status == 200) {
-        result = JSON.parse( http.responseText );
+        if(http.responseText == ""){
+          result = [];
+        }else{
+          result = JSON.parse( http.responseText );
+        }
       }
     }
     http.send();

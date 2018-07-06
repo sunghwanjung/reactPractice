@@ -1,13 +1,19 @@
 //타입 선언
 export const SETDAY = "SETDAY";
 export const SETJOBDATA = "SETJOBDATA";
+export const ADDJOBDATA = "ADDJOBDATA";
 export const BUTTONDISABLE = "BUTTONDISABLE";
+export const MODALTYPE = "MODALTYPE";
+export const MODALSHOW = "MODALSHOW";
 
 //타입 별로 변경될 값의 key 선언
 const valueOfTypes = {
     SETDAY : "selectedDay",
     SETJOBDATA : "jobData",
-    BUTTONDISABLE : ["inputButton", "updateButton"]
+    ADDJOBDATA : "jobItem",
+    BUTTONDISABLE : ["inputButton", "updateButton"],
+    MODALTYPE : "popupType",
+    MODALSHOW : "modalShow"
 }
 
 export  function getAction(type,value){

@@ -1,7 +1,7 @@
 module.exports = {
     // 가장 처음 읽을 스크립트파일
     // 여기서부터 import 되어있는 다른 스크립트를 불러온다.
-    entry: './src/index.js',
+    entry: ['babel-polyfill','./src/index.js'],
 
     // 파일을 합치고 ./public/bundle.js 에 저장한다.
     output: {
