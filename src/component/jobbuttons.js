@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getAction, MODALTYPE, MODALSHOW} from '../redux/actions'
+import { getAction, MODALTYPE, MODALSHOW, RESETJOBDATA} from '../redux/actions'
 import Css from './jobbutton.css';
 
 class jobButtons extends Component {
@@ -13,11 +13,7 @@ class jobButtons extends Component {
   buttonClickEvent(event){
     switch (event.target.id) {
       case "jobadd":
-        var inputs = document.getElementsByName("timeinput");
-        for(var i = 0, len = inputs.length; i < len; i++){
-          inputs[i].value = "";
-        }
-        document.getElementsByName("contentinput")[0].value = "";
+        this.props.resetJobData(true);
         this.props.setModalType("insert");
         break;
       case "jobupdate":
@@ -59,6 +55,8 @@ let mapDispatchToProps = (dispatch) => {
   return {
       setModalType : (value) => dispatch(getAction(MODALTYPE, value)),
       setModalShow : (value) => dispatch(getAction(MODALSHOW, value)),
+      resetJobData : (value) => dispatch(getAction(RESETJOBDATA, value)),
+      setAddData : (value) => dispatch(getAction(JOBDATA, value))
   }
 }
 

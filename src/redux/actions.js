@@ -5,6 +5,7 @@ export const ADDJOBDATA = "ADDJOBDATA";
 export const BUTTONDISABLE = "BUTTONDISABLE";
 export const MODALTYPE = "MODALTYPE";
 export const MODALSHOW = "MODALSHOW";
+export const RESETJOBDATA = "RESETJOBDATA";
 
 //타입 별로 변경될 값의 key 선언
 const valueOfTypes = {
@@ -13,12 +14,13 @@ const valueOfTypes = {
     ADDJOBDATA : "jobItem",
     BUTTONDISABLE : ["inputButton", "updateButton"],
     MODALTYPE : "popupType",
-    MODALSHOW : "modalShow"
+    MODALSHOW : "modalShow",
+    RESETJOBDATA : "resetJobData"
 }
 
 export  function getAction(type,value){
     var obj = {};
-    obj.type = type; //redux에서는 type을 세팅해놓지 않으면 에러를 발생시킨다.
+    obj.type = type;
     var type = valueOfTypes[type]; 
 
     if(type != undefined){

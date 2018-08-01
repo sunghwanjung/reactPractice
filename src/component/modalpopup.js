@@ -21,7 +21,7 @@ class jobList extends Component {
 
   getAddPopup(){
     if(this.props.popupType == "insert"){
-      return(<AddPopup timeData="init"/>);
+      return(<AddPopup/>);
     }else if(this.props.popupType == "update"){
       return(<div>수정은 준비중</div>);  
     }
