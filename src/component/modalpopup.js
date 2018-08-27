@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getAction, MODALSHOW} from '../redux/actions'
 import modalCss from './modalpopup.css';
-import AddPopup from './jobadd';
+import AddPopup from './jobmodify';
 
 class jobList extends Component {
 
@@ -21,9 +21,9 @@ class jobList extends Component {
 
   getAddPopup(){
     if(this.props.popupType == "insert"){
-      return(<AddPopup/>);
+      return(<AddPopup popType="insert"/>);
     }else if(this.props.popupType == "update"){
-      return(<div>수정은 준비중</div>);  
+      return(<AddPopup popType="update" />);  
     }
   }
   

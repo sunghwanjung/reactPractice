@@ -57,7 +57,7 @@ let mapDispatchToProps = (dispatch) => {
   return {
       setJobData : (value) => dispatch(getAction(SETJOBDATA, value)),
       setDate : (value) => dispatch(getAction(SETDAY, value)),
-      setInputButtonDisable : (value) => dispatch(getAction(BUTTONDISABLE, {inputButton : value}))
+      setInputButtonDisable : (value) => dispatch(getAction(BUTTONDISABLE, {inputButton : value, updateButton : true}))
   }
 }
 reactCalendar = connect(undefined, mapDispatchToProps)(reactCalendar);
