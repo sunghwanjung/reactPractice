@@ -34,7 +34,7 @@ app.get('/getJobData', (req, res) => {
         res.send(value);
     }
     try{
-        sqlite.sqlSelectList(callback, "selectJob" , req.query.day);
+        sqlite.sqlSelectList("selectJob" , req.query.day, callback);
     }catch(e){
         res.send("오류");
     }
@@ -45,7 +45,15 @@ app.post('/insertjob', (req, res) => {
     var callback = (value) =>{
         res.send(value);
     }
-    sqlite.sqlInsert(callback,"insertJob", body);
+    sqlite.jobInsert("insertJob", body, callback);
+});
+
+app.post('/updatejob', (req, res) => {
+    var body = req.body;
+    var callback = (value) =>{
+        res.send(value);
+    }
+    sqlite.jobUpdate("updateJob", body, callback);
 });
 
 

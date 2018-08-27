@@ -6,7 +6,8 @@ var db = new sqlite3.Database("./server/sqlite.db");
 
 const querys = {
     selectJob : "select seq, day, time, content from todayJob where day = ? order by time",
-    insertJob : "insert into todayJob(day,time,content) values( #{day},#{time},#{content})"
+    insertJob : "insert into todayJob(day,time,content) values( #{day},#{time},#{content})",
+    updateJob : "update todayJob set day = #{day}, time = #{time}, content = #{content} where seq = #{seq}"
 }
 
 let replaceParamOnQuery = (query, parameter)=>{
@@ -21,7 +22,7 @@ let replaceParamOnQuery = (query, parameter)=>{
     return query;
 }
 
-let sqlSelectList = (callback, queryId, parameter) =>{
+let sqlSelectList = (queryId, parameter, callback) =>{
 
    db.all(querys[queryId], parameter , function(err,row){
         var result = [];
@@ -34,12 +35,13 @@ let sqlSelectList = (callback, queryId, parameter) =>{
         }else{
             result.push(row);
         }
-        callback(result);
+        if(typeof callback == "function")
+         callback(result);
     });
 }
 
 
-let sqlInsert = (callback, queryId, parameter) =>{
+let jobInsert = (queryId, parameter, callback) =>{
     var result = 0;
     var exec = ()=>{
         var query = replaceParamOnQuery(querys[queryId], parameter);
@@ -49,7 +51,7 @@ let sqlInsert = (callback, queryId, parameter) =>{
     try{
         if(parameter.constructor == Array){
             for(var i = 0, len = parameter.length; i < len; i++){
-                exec(parameter[i]);
+                exec(parameter[i]);            
             }
         }else{
             exec(parameter);
@@ -62,12 +64,40 @@ let sqlInsert = (callback, queryId, parameter) =>{
     }catch(e){
         result = -1;
     }
+    if(typeof callback == "function")
+        callback(result + "");
+}
 
-    callback(result + "");
+let jobUpdate = (queryId, parameter, callback) =>{
+    var result = 0;
+    var exec = ()=>{
+        var query = replaceParamOnQuery(querys[queryId], parameter);
+        db.run(query);
+    }
+
+    try{
+        if(parameter.constructor == Array){
+            for(var i = 0, len = parameter.length; i < len; i++){
+                exec(parameter[i]);            
+            }
+        }else{
+            exec(parameter);
+        }
+/*         var stmt = db.prepare(querys[queryId]);
+        for (var i = 0; i < 10; i++) {
+            stmt.run(parameter);
+        }
+        stmt.finalize(); */
+    }catch(e){
+        result = -1;
+    }
+    if(typeof callback == "function")
+        callback(result + "");
 }
 
 let apis = {
     sqlSelectList : sqlSelectList,
-    sqlInsert : sqlInsert
+    jobInsert : jobInsert,
+    jobUpdate : jobUpdate
 }
 export default apis;
