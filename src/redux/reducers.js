@@ -1,10 +1,11 @@
 //import rAction from './actions'; rAction.SETDAY가 안먹힘 rAction.default.SETDAY로 찾음
-import {SETDAY,SETJOBDATA,ADDJOBDATA,BUTTONDISABLE,MODALTYPE,MODALSHOW,RESETJOBDATA } from './actions';
+import {SETDAY,SETJOBDATA,SETJOB,ADDJOBDATA,BUTTONDISABLE,MODALTYPE,MODALSHOW,RESETJOBDATA } from './actions';
 import {combineReducers} from 'redux';
 
 const dayManageInitialState = {
     selectedDay : "",
     jobData : [],
+    job : null,
     inputButton : true,
     updateButton : true,
     popupType : "insert",
@@ -16,6 +17,7 @@ const dayInfo = (state = dayManageInitialState, action) =>{
     switch (action.type) {
         case SETDAY:
         case SETJOBDATA:   
+        case SETJOB:
         case BUTTONDISABLE :
         case MODALTYPE :
         case MODALSHOW :

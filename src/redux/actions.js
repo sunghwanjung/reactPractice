@@ -1,6 +1,7 @@
 //타입 선언
 export const SETDAY = "SETDAY";
 export const SETJOBDATA = "SETJOBDATA";
+export const SETJOB = "SETJOB";
 export const ADDJOBDATA = "ADDJOBDATA";
 export const BUTTONDISABLE = "BUTTONDISABLE";
 export const MODALTYPE = "MODALTYPE";
@@ -11,6 +12,7 @@ export const RESETJOBDATA = "RESETJOBDATA";
 const valueOfTypes = {
     SETDAY : "selectedDay",
     SETJOBDATA : "jobData",
+    SETJOB : "job",
     ADDJOBDATA : "jobItem",
     BUTTONDISABLE : ["inputButton", "updateButton"],
     MODALTYPE : "popupType",
@@ -29,7 +31,7 @@ export  function getAction(type,value){
                 var keys = Object.keys(value);
                 for(var i = 0, len = keys.length; i < len; i++){
                     if(type.includes( keys[i] ) ){
-                        obj[keys] = value[keys]; 
+                        obj[keys[i]] = value[keys[i]]; 
                     }
                 }
             }else{
