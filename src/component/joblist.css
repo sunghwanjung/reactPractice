@@ -1,3 +1,9 @@
 .joblist{
-  color : blue
+  color : blue;
+  margin: 5px 0 5px 0;
+  width : 30%;
+}
+
+.joblist:hover{
+  cursor: pointer;
 }

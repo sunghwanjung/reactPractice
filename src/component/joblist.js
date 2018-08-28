@@ -7,7 +7,9 @@ class jobList extends Component {
 
   constructor(props) {
     super(props);
-
+    this.state = {
+      focuseLi : ""
+    }
     this.listClick = this.listClick.bind(this);
   }
 
@@ -26,10 +28,21 @@ class jobList extends Component {
   }
 
   listClick(event){
-    if(event.target.tagName == "LI"){
-      this.props.setJob(this.props.jobData[ event.target.getAttribute("number") ] );
+    var target = event.target;
+
+    this.focuseChange(target);
+    //joblistClicked
+    if(target.tagName == "LI"){
+      this.props.setJob(this.props.jobData[ target.getAttribute("number") ] );
       this.props.setInputButtonDisable(false);
     }
+  }
+
+  focuseChange(target){
+    if(this.focuseLi != null)
+      this.focuseLi.style.background = "";
+    target.style.background = "lavender";
+    this.focuseLi = target;
   }
 
   render() {
