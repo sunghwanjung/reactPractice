@@ -3,6 +3,7 @@ export const SETDAY = "SETDAY";
 export const SETJOBDATA = "SETJOBDATA";
 export const SETJOB = "SETJOB";
 export const ADDJOBDATA = "ADDJOBDATA";
+export const UPDATEJOBDATA = "UPDATEJOBDATA";
 export const BUTTONDISABLE = "BUTTONDISABLE";
 export const MODALTYPE = "MODALTYPE";
 export const MODALSHOW = "MODALSHOW";
@@ -14,6 +15,7 @@ const valueOfTypes = {
     SETJOBDATA : "jobData",
     SETJOB : "job",
     ADDJOBDATA : "jobItem",
+    UPDATEJOBDATA : "jobItem",
     BUTTONDISABLE : ["inputButton", "updateButton"],
     MODALTYPE : "popupType",
     MODALSHOW : "modalShow",

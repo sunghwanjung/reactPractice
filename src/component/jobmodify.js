@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getAction, MODALSHOW, ADDJOBDATA,RESETJOBDATA} from '../redux/actions'
+import { getAction, MODALSHOW, ADDJOBDATA, UPDATEJOBDATA, RESETJOBDATA} from '../redux/actions'
 import JobAddCss from './jobmodify.css';
 
 class jobmodify extends Component {
@@ -21,10 +21,11 @@ class jobmodify extends Component {
 
   inputKeydown(event){
     var prevent = true;
-    if(event.keyCode == 8) return;
+    var keycode = event.keyCode;
+    if(keycode == 8 || keycode == 9 || keycode == 46) return;
     
-    if( (48 <= event.keyCode && event.keyCode <= 57) ||
-        (96 <= event.keyCode && event.keyCode <= 105) )  
+    if( (48 <= keycode && keycode <= 57) ||
+        (96 <= keycode && keycode <= 105) )  
         prevent = false;
 
     if(!prevent){
@@ -53,19 +54,19 @@ class jobmodify extends Component {
 
   dataToDB(event){
     var _self = this;
-    var state = this.state;
+    var state = _self.state;
     var http = new XMLHttpRequest();
-    var param = "day=" + this.props.selectedDay + "&" +
-                "time=" + this.getTime() + "&" + 
+    var param = "day=" + _self.props.selectedDay + "&" +
+                "time=" + _self.getTime() + "&" + 
                 "content=" + state.content;
 
     var url;
     
-    if(this.props.popType == "insert"){
+    if(_self.props.popType == "insert"){
       url = "/insertjob";
     }else{
       url = "/updatejob";
-      param += "&seq=" +  this.props.job.seq;
+      param += "&seq=" +  _self.props.job.seq;
     }
     
     http.open('POST', url , true);
@@ -79,7 +80,14 @@ class jobmodify extends Component {
     }
     http.send(param);
     function afterDBWork(){
-      _self.props.setModalShow("none", {time : state.hourFront + state.hourBack + state.minFront + state.minBack, content: state.content});
+      _self.props.setModalShow("none");
+
+      var time = state.hourFront + state.hourBack + state.minFront + state.minBack;
+      if(_self.props.popType == "insert"){
+        _self.props.addJobData({time : time, content: state.content})
+      }else{
+        _self.props.updateJobData({time : time, content: state.content, seq : _self.props.job.seq});
+      }
      // _self.props.addJobData({time : state.hourFront + state.hourBack + state.minFront + state.minBack, content: state.content});
     }
   }
@@ -97,26 +105,34 @@ class jobmodify extends Component {
     this.state.content = event.target.value;
   }
 
-  setJobDatas(){
-    var _addtime = this.props.addtime; 
-    //this.setState(_addtime);
-  }
-
   //calendar.js에서 setDate가 호출될 때마다 리렌더링이 일어나서 이 이벤트를 탐
   setData(){
     if(this.props.popType == "update"){
-      //this.props.resetJobData(false);
-      var job = this.props.job;
-      var time = job.time;
-      this._content.value = job.content;
-      this._hourFront.value = time.substring(0,1);
-      this._hourBack.value = time.substring(1,2);
-      this._minFront.value = time.substring(2,3);
-      this._minBack.value = time.substring(3);
-      console.log("여기탐");
+      this.setSelectedData();
     }else{
       this.resetData();
     }
+  }
+
+  setSelectedData(){
+    var job = this.props.job;
+    var time = job.time;
+    var state = this.state;
+    var hourFront = time.substring(0,1);
+    var hourBack =  time.substring(1,2);
+    var minFront = time.substring(2,3);
+    var minBack = time.substring(3);
+
+    this._content.value = job.content;
+    this._hourFront.value = hourFront;
+    this._hourBack.value = hourBack;
+    this._minFront.value = minFront;
+    this._minBack.value = minBack;
+
+    state.hourFront = hourFront;
+    state.hourBack = hourBack;
+    state.minFront = minFront;
+    state.minBack = minBack;
   }
 
   resetData(){
@@ -146,7 +162,7 @@ class jobmodify extends Component {
                 <td>
                     <div>
                     <input type="text" id="hourFront" name="timeinput" className={JobAddCss.addtime} 
-                      onKeyDown={this.inputKeydown} maxLength="1" ref={input=>this._hourFront = input} />
+                      onKeyUp={this.inputKeydown} maxLength="1" ref={input=>this._hourFront = input} />
                     <input type="text" id="hourBack" name="timeinput" className={JobAddCss.addtime} 
                       onKeyDown={this.inputKeydown} maxLength="1" ref={input=>this._hourBack = input} /> 
                     <div className={JobAddCss.timemiddel}> : </div>
@@ -189,11 +205,9 @@ let mapStateTopProp = (state) =>{
 
 let mapDispatchToProps = (dispatch) => {
   return {
-      setModalShow : (value, value2) =>{
-        dispatch(getAction(MODALSHOW, value));
-        dispatch(getAction( ADDJOBDATA, value2));
-      } ,
-      addJobData : (value) => dispacth(getAction( ADDJOBDATA, value)),
+      setModalShow : (value) => dispatch(getAction(MODALSHOW, value)),
+      addJobData : (value) => dispatch(getAction( ADDJOBDATA, value)),
+      updateJobData : (value) => dispatch(getAction(UPDATEJOBDATA, value)),
       resetJobData : (value) => dispatch(getAction(RESETJOBDATA, value)),
   }
 }
