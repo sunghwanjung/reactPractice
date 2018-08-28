@@ -29,10 +29,8 @@ class jobList extends Component {
 
   listClick(event){
     var target = event.target;
-
-    this.focuseChange(target);
-    //joblistClicked
     if(target.tagName == "LI"){
+      this.focuseChange(target);
       this.props.setJob(this.props.jobData[ target.getAttribute("number") ] );
       this.props.setInputButtonDisable(false);
     }
